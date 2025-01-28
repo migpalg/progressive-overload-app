@@ -20,7 +20,7 @@ export type AuthProviderProps = {
   /**
    * Children to render.
    */
-  children: ReactNode;
+  children?: ReactNode;
 };
 
 /**
