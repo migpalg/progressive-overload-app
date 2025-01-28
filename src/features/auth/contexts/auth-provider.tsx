@@ -1,4 +1,10 @@
-import { useCallback, useEffect, useMemo, type ReactNode } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
 import type { Auth, User } from "firebase/auth";
 import { AuthContext, AuthContextState } from "./auth-context";
 
@@ -14,7 +20,7 @@ export type AuthProviderProps = {
   /**
    * Children to render.
    */
-  children: ReactNode;
+  children?: ReactNode;
 };
 
 /**
@@ -22,15 +28,17 @@ export type AuthProviderProps = {
  * react.
  */
 export const AuthProvider = ({ auth, children }: AuthProviderProps) => {
+  const [user, setUser] = useState<User | null>(null);
+
   // We use useMemo to memoize the value object, so that it doesn't change
   // on every render.
-  const value = useMemo<AuthContextState>(() => ({ auth, user: null }), [auth]);
+  const value = useMemo<AuthContextState>(() => ({ auth, user }), [auth, user]);
 
   /**
    * Handles auth state changes.
    */
   const handleAuthStateChanged = useCallback((user: User | null) => {
-    console.log({ user });
+    setUser(user);
   }, []);
 
   useEffect(
