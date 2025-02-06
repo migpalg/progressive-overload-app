@@ -1,0 +1,23 @@
+{
+  "auth": {
+    "login": {
+      "title": "Login",
+      "email": {
+        "label": "Email",
+        "placeholder": "john.doe@example.com",
+        "errors": {
+          "required": "Email is required",
+          "invalid": "Email is invalid"
+        }
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Enter your password",
+        "errors": {
+          "required": "Password is required"
+        }
+      },
+      "submit": "Login"
+    }
+  }
+}
