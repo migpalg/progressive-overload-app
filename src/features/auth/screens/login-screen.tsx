@@ -2,7 +2,7 @@ import { Box, Button, TextField } from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../hooks/useAuth";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { useState } from "react";
 
 /**
@@ -91,6 +91,8 @@ export const LoginScreen = () => {
       >
         {t("auth.login.submit")}
       </Button>
+
+      <Button onClick={() => signOut(auth)}>Logout</Button>
     </Box>
   );
 };

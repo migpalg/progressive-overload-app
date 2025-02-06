@@ -8,5 +8,3 @@ export const config = {
     appId: import.meta.env.VITE_FIREBASE_APP_ID,
   },
 } as const;
-
-console.log(config);
