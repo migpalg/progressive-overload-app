@@ -1,5 +1,23 @@
 {
   "auth": {
+    "errors": {
+      "auth/default": "An error occurred",
+      "auth/email-already-in-use": "An account already exists with this email address",
+      "auth/wrong-password": "Incorrect email or password",
+      "auth/user-not-found": "No account found with this email",
+      "auth/invalid-email": "Please enter a valid email address",
+      "auth/weak-password": "Password should be at least 6 characters",
+      "auth/network-request-failed": "Connection error - please check your internet",
+      "auth/too-many-requests": "Too many attempts - please try again later",
+      "auth/user-disabled": "This account has been disabled",
+      "auth/requires-recent-login": "Please sign in again to continue",
+      "auth/popup-closed-by-user": "Sign in was cancelled",
+      "auth/operation-not-allowed": "This sign in method is not enabled",
+      "auth/expired-action-code": "This link has expired",
+      "auth/invalid-action-code": "This link is invalid",
+      "auth/popup-blocked": "Please allow popups for this website",
+      "auth/invalid-credential": "Invalid sign in credentials"
+    },
     "login": {
       "title": "Login",
       "email": {

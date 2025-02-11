@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Button,
   CircularProgress,
@@ -12,6 +13,8 @@ import { useAuth } from "../hooks/useAuth";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
+import { EMAIL_REGEX } from "../constants.ts";
+import { FirebaseError } from "firebase/app";
 
 /**
  * Values from the login form
@@ -33,6 +36,7 @@ export const LoginScreen = () => {
   const { auth } = useAuth();
   const { t } = useTranslation();
   const [searchParams] = useSearchParams();
+  const [errorCode, setErrorCode] = useState<string | null>(null);
   const navigate = useNavigate();
   const {
     register,
@@ -46,6 +50,7 @@ export const LoginScreen = () => {
   }) => {
     try {
       setIsAuthenticating(true);
+      setErrorCode(null);
 
       // This operation fails if the login is incorrect
       // TODO: Put this method in the auth context
@@ -53,7 +58,9 @@ export const LoginScreen = () => {
 
       navigate(searchParams.get("redirect") || "/dashboard");
     } catch (error) {
-      console.error(error);
+      setErrorCode(
+        error instanceof FirebaseError ? error.code : "auth/default"
+      );
     } finally {
       setIsAuthenticating(false);
     }
@@ -64,6 +71,11 @@ export const LoginScreen = () => {
       <Typography variant="h4" gutterBottom>
         {t("auth.login.title")}
       </Typography>
+      {errorCode && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {t([`auth.errors.${errorCode}`, "auth.errors.auth/default"])}
+        </Alert>
+      )}
       <Box
         component="form"
         sx={{
@@ -77,6 +89,7 @@ export const LoginScreen = () => {
           variant="outlined"
           label={t("auth.login.email.label")}
           placeholder={t("auth.login.email.placeholder")}
+          disabled={isAuthenticating}
           error={!!errors.email}
           helperText={errors.email?.message}
           type="email"
@@ -84,14 +97,14 @@ export const LoginScreen = () => {
           {...register("email", {
             required: t("auth.login.email.errors.required"),
             pattern: {
-              value:
-                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+              value: EMAIL_REGEX,
               message: t("auth.login.email.errors.invalid"),
             },
           })}
         />
         <TextField
           variant="outlined"
+          disabled={isAuthenticating}
           label={t("auth.login.password.label")}
           placeholder={t("auth.login.password.placeholder")}
           error={!!errors.password}
