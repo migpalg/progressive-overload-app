@@ -88,6 +88,9 @@ export const LoginScreen = () => {
           variant="outlined"
           label={t("auth.login.email.label")}
           placeholder={t("auth.login.email.placeholder")}
+          slotProps={{
+            htmlInput: { "data-testid": "login-email-input" },
+          }}
           disabled={isAuthenticating}
           error={!!errors.email}
           helperText={errors.email?.message}
@@ -105,6 +108,9 @@ export const LoginScreen = () => {
           variant="outlined"
           disabled={isAuthenticating}
           label={t("auth.login.password.label")}
+          slotProps={{
+            htmlInput: { "data-testid": "login-password-input" },
+          }}
           placeholder={t("auth.login.password.placeholder")}
           error={!!errors.password}
           helperText={errors.password?.message}
@@ -116,6 +122,7 @@ export const LoginScreen = () => {
         />
         <Button
           disabled={isAuthenticating}
+          data-testid="login-submit-button"
           variant="contained"
           color="primary"
           type="submit"
