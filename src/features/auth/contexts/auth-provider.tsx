@@ -5,7 +5,11 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import type { Auth, User } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  type Auth,
+  type User,
+} from "firebase/auth";
 import { AuthContext, AuthContextState, AuthFetchStatus } from "./auth-context";
 
 /**
@@ -31,13 +35,6 @@ export const AuthProvider = ({ auth, children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [fetchStatus, setFetchStatus] = useState<AuthFetchStatus>("loading");
 
-  // We use useMemo to memoize the value object, so that it doesn't change
-  // on every render.
-  const value = useMemo<AuthContextState>(
-    () => ({ auth, user, status: fetchStatus }),
-    [auth, fetchStatus, user]
-  );
-
   /**
    * Handles auth state changes.
    */
@@ -45,6 +42,25 @@ export const AuthProvider = ({ auth, children }: AuthProviderProps) => {
     setFetchStatus("success");
     setUser(user);
   }, []);
+
+  const signInWithEmail = useCallback(
+    (email: string, password: string) => {
+      return signInWithEmailAndPassword(auth, email, password);
+    },
+    [auth]
+  );
+
+  // We use useMemo to memoize the value object, so that it doesn't change
+  // on every render.
+  const value = useMemo<AuthContextState>(
+    () => ({
+      auth,
+      user,
+      status: fetchStatus,
+      signInWithEmailAndPassword: signInWithEmail,
+    }),
+    [auth, fetchStatus, signInWithEmail, user]
+  );
 
   useEffect(() => {
     setFetchStatus("loading");

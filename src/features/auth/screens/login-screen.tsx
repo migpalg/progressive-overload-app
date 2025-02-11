@@ -10,7 +10,6 @@ import {
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../hooks/useAuth";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import { EMAIL_REGEX } from "../constants.ts";
@@ -33,7 +32,7 @@ type LoginInputs = {
 
 export const LoginScreen = () => {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
-  const { auth } = useAuth();
+  const { signInWithEmailAndPassword } = useAuth();
   const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const [errorCode, setErrorCode] = useState<string | null>(null);
@@ -54,7 +53,7 @@ export const LoginScreen = () => {
 
       // This operation fails if the login is incorrect
       // TODO: Put this method in the auth context
-      await signInWithEmailAndPassword(auth, email, password);
+      await signInWithEmailAndPassword(email, password);
 
       navigate(searchParams.get("redirect") || "/dashboard");
     } catch (error) {

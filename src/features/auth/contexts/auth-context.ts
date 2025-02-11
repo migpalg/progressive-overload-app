@@ -1,4 +1,4 @@
-import type { Auth, User } from "firebase/auth";
+import type { Auth, User, UserCredential } from "firebase/auth";
 import { createContext } from "react";
 
 export type AuthFetchStatus = "loading" | "error" | "success";
@@ -23,6 +23,13 @@ export type AuthContextState = {
    * Fetch status of the auth context.
    */
   status: AuthFetchStatus;
+
+  /**
+   * Sign in with email and password.
+   * @param email target email
+   * @param password target password
+   */
+  signInWithEmailAndPassword: (email: string, password: string) => Promise<UserCredential>;
 };
 
 /**
