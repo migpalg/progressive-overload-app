@@ -10,7 +10,7 @@ export type AuthContextState = {
   /**
    * Auth instance from firebase.
    */
-  auth: Auth;
+  auth: Auth | null;
 
   /**
    * Current authenticated user.
@@ -29,10 +29,23 @@ export type AuthContextState = {
    * @param email target email
    * @param password target password
    */
-  signInWithEmailAndPassword: (email: string, password: string) => Promise<UserCredential>;
+  signInWithEmailAndPassword: (
+    email: string,
+    password: string
+  ) => Promise<UserCredential>;
+
+  signOut: () => Promise<void>;
+};
+
+const defaultAuthContext: AuthContextState = {
+  auth: null,
+  user: null,
+  status: "loading",
+  signInWithEmailAndPassword: () => Promise.reject("Not implemented"),
+  signOut: () => Promise.reject("Not implemented"),
 };
 
 /**
  * Context for the auth state.
  */
-export const AuthContext = createContext<AuthContextState | null>(null);
+export const AuthContext = createContext<AuthContextState>(defaultAuthContext);

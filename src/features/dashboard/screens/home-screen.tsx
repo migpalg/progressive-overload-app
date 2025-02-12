@@ -1,12 +1,11 @@
-import { signOut } from "firebase/auth";
 import { useAuth } from "../../auth/hooks/useAuth";
 import { Box, Button } from "@mui/material";
 
 export const HomeScreen = () => {
-  const { auth } = useAuth();
+  const { signOut } = useAuth();
 
   const handleSignOut = () => {
-    signOut(auth);
+    signOut();
   };
 
   return (

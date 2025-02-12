@@ -7,6 +7,7 @@ import {
 } from "react";
 import {
   signInWithEmailAndPassword,
+  signOut,
   type Auth,
   type User,
 } from "firebase/auth";
@@ -50,6 +51,8 @@ export const AuthProvider = ({ auth, children }: AuthProviderProps) => {
     [auth]
   );
 
+  const logOut = useCallback(() => signOut(auth), [auth]);
+
   // We use useMemo to memoize the value object, so that it doesn't change
   // on every render.
   const value = useMemo<AuthContextState>(
@@ -58,8 +61,9 @@ export const AuthProvider = ({ auth, children }: AuthProviderProps) => {
       user,
       status: fetchStatus,
       signInWithEmailAndPassword: signInWithEmail,
+      signOut: logOut,
     }),
-    [auth, fetchStatus, signInWithEmail, user]
+    [auth, fetchStatus, logOut, signInWithEmail, user]
   );
 
   useEffect(() => {

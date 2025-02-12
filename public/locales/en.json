@@ -35,7 +35,8 @@
           "required": "Password is required"
         }
       },
-      "submit": "Login"
+      "submit": "Login",
+      "google": "Sign in with Google"
     }
   }
 }
