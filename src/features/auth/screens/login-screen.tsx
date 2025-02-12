@@ -4,16 +4,23 @@ import {
   Button,
   CircularProgress,
   Container,
+  Divider,
+  InputAdornment,
   TextField,
   Typography,
 } from "@mui/material";
+import styled from "@emotion/styled";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { useAuth } from "../hooks/useAuth";
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
-import { EMAIL_REGEX } from "../constants.ts";
+import { AlternateEmail, Lock } from "@mui/icons-material";
 import { FirebaseError } from "firebase/app";
+import { useAuth } from "../hooks/useAuth";
+import { EMAIL_REGEX } from "../constants.ts";
+
+import DumbbellIllustration from "../assets/dumbbell-illustration.svg";
+import { GoogleIcon } from "../icons/google-icon.tsx";
 
 /**
  * Values from the login form
@@ -29,6 +36,13 @@ type LoginInputs = {
    */
   password: string;
 };
+
+const ImageContainer = styled.img`
+  width: 60%;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+`;
 
 /**
  * This Screen allows the user to login into the application.
@@ -69,7 +83,8 @@ export const LoginScreen = () => {
 
   return (
     <Container maxWidth="xs" sx={{ paddingBlock: 2 }}>
-      <Typography variant="h4" gutterBottom>
+      <ImageContainer src={DumbbellIllustration} alt="Dumbbell Illustration" />
+      <Typography variant="h4" fontWeight={900} sx={{ mb: 4 }}>
         {t("auth.login.title")}
       </Typography>
       {errorCode && (
@@ -82,7 +97,7 @@ export const LoginScreen = () => {
         sx={{
           display: "flex",
           flexDirection: "column",
-          gap: 1,
+          gap: 3,
         }}
         onSubmit={handleSubmit(handleLogin)}
       >
@@ -92,6 +107,13 @@ export const LoginScreen = () => {
           placeholder={t("auth.login.email.placeholder")}
           slotProps={{
             htmlInput: { "data-testid": "login-email-input" },
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <AlternateEmail />
+                </InputAdornment>
+              ),
+            },
           }}
           disabled={isAuthenticating}
           error={!!errors.email}
@@ -112,6 +134,13 @@ export const LoginScreen = () => {
           label={t("auth.login.password.label")}
           slotProps={{
             htmlInput: { "data-testid": "login-password-input" },
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Lock />
+                </InputAdornment>
+              ),
+            },
           }}
           placeholder={t("auth.login.password.placeholder")}
           error={!!errors.password}
@@ -128,6 +157,7 @@ export const LoginScreen = () => {
           variant="contained"
           color="primary"
           type="submit"
+          size="large"
           fullWidth
         >
           {isAuthenticating ? (
@@ -135,6 +165,21 @@ export const LoginScreen = () => {
           ) : (
             t("auth.login.submit")
           )}
+        </Button>
+      </Box>
+      <Divider variant="middle" sx={{ my: 2 }}>
+        <Typography variant="caption">Or</Typography>
+      </Divider>
+      <Box>
+        {/* TODO: Implement login with google */}
+        <Button
+          variant="outlined"
+          fullWidth
+          size="large"
+          startIcon={<GoogleIcon />}
+          disabled
+        >
+          {t("auth.login.google")}
         </Button>
       </Box>
     </Container>
