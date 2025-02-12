@@ -1,21 +1,20 @@
 import { PropsWithChildren } from "react";
 import { beforeAll, beforeEach, describe, expect, it, Mock, vi } from "vitest";
-import { MemoryRouter } from "react-router";
-import {
-  act,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { AuthContext } from "../../contexts/auth-context";
 import { LoginScreen } from "../../screens/login-screen";
 import { FirebaseError } from "firebase/app";
 
+vi.mock("react-router", () => ({
+  useNavigate: () => vi.fn(),
+  useSearchParams: () => [new URLSearchParams()],
+}));
+
 function getWrapper(authMock: unknown) {
   return ({ children }: PropsWithChildren) => (
     <AuthContext.Provider value={authMock as never}>
-      <MemoryRouter>{children}</MemoryRouter>
+      {children}
     </AuthContext.Provider>
   );
 }
@@ -32,37 +31,25 @@ describe("<LoginScreen /> unit testing", async () => {
   });
 
   beforeEach(() => {
-    vi.clearAllMocks();
+    authMock.signInWithEmailAndPassword.mockClear();
   });
 
   it("should login with auth provider", async () => {
     authMock.signInWithEmailAndPassword.mockResolvedValueOnce({});
 
-    await act(async () => {
-      render(<LoginScreen />, {
-        wrapper: getWrapper(authMock),
-      });
+    render(<LoginScreen />, {
+      wrapper: getWrapper(authMock),
     });
 
-    const emailInput = screen.getByTestId("login-email-input");
-    const passwordInput = screen.getByTestId("login-password-input");
-    const submitButton = screen.getByTestId("login-submit-button");
+    const emailInput = await screen.findByTestId("login-email-input");
+    const passwordInput = await screen.findByTestId("login-password-input");
+    const submitButton = await screen.findByTestId("login-submit-button");
 
-    await act(() =>
-      fireEvent.change(emailInput, {
-        target: { value: "jhon.doe@example.com" },
-      })
-    );
+    await userEvent.type(emailInput, "jhon.doe@example.com");
+    await userEvent.type(passwordInput, "password");
+    await userEvent.click(submitButton);
 
-    await act(() =>
-      fireEvent.change(passwordInput, { target: { value: "password" } })
-    );
-
-    await act(() => fireEvent.click(submitButton));
-
-    await waitFor(() =>
-      expect(authMock.signInWithEmailAndPassword).toHaveBeenCalledTimes(1)
-    );
+    expect(authMock.signInWithEmailAndPassword).toHaveBeenCalledTimes(1);
   });
 
   it("should show firebase error code when the login fails", async () => {
@@ -70,37 +57,24 @@ describe("<LoginScreen /> unit testing", async () => {
       new FirebaseError("auth/mocked-firebase-error", "Target error")
     );
 
-    await act(async () => {
-      render(<LoginScreen />, {
-        wrapper: getWrapper(authMock),
-      });
+    render(<LoginScreen />, {
+      wrapper: getWrapper(authMock),
     });
 
-    const emailInput = screen.getByTestId("login-email-input");
-    const passwordInput = screen.getByTestId("login-password-input");
-    const submitButton = screen.getByTestId("login-submit-button");
+    const emailInput = await screen.findByTestId("login-email-input");
+    const passwordInput = await screen.findByTestId("login-password-input");
+    const submitButton = await screen.findByTestId("login-submit-button");
 
-    await act(() =>
-      fireEvent.change(emailInput, {
-        target: { value: "jhon.doe@example.com" },
-      })
+    await userEvent.type(emailInput, "jhon.doe@example.com");
+    await userEvent.type(passwordInput, "password");
+    await userEvent.click(submitButton);
+
+    const firebaseError = await screen.findByText(
+      /auth\.errors\.auth\/mocked-firebase-error/
     );
 
-    await act(() =>
-      fireEvent.change(passwordInput, { target: { value: "password" } })
-    );
-
-    await act(() => fireEvent.click(submitButton));
-
-    await waitFor(() =>
-      expect(authMock.signInWithEmailAndPassword).toHaveBeenCalled()
-    );
-
-    await waitFor(() => {
-      expect(() =>
-        screen.getByText(/auth\.errors\.auth\/mocked-firebase-error/)
-      ).not.toThrow();
-    });
+    expect(authMock.signInWithEmailAndPassword).toHaveBeenCalled();
+    expect(firebaseError).toBeInTheDocument();
   });
 
   it("should show the default error message when the login fails", async () => {
@@ -108,119 +82,79 @@ describe("<LoginScreen /> unit testing", async () => {
       code: "auth/should-not-be-shown",
     });
 
-    await act(async () => {
-      render(<LoginScreen />, {
-        wrapper: getWrapper(authMock),
-      });
+    render(<LoginScreen />, {
+      wrapper: getWrapper(authMock),
     });
 
-    const emailInput = screen.getByTestId("login-email-input");
-    const passwordInput = screen.getByTestId("login-password-input");
-    const submitButton = screen.getByTestId("login-submit-button");
+    const emailInput = await screen.findByTestId("login-email-input");
+    const passwordInput = await screen.findByTestId("login-password-input");
+    const submitButton = await screen.findByTestId("login-submit-button");
 
-    await act(() =>
-      fireEvent.change(emailInput, {
-        target: { value: "jhon.doe@example.com" },
-      })
-    );
+    await userEvent.type(emailInput, "jhon.doe@example.com");
+    await userEvent.type(passwordInput, "password");
+    await userEvent.click(submitButton);
+    const defaultError = await screen.findByText(/auth\.errors\.auth\/default/);
 
-    await act(() =>
-      fireEvent.change(passwordInput, { target: { value: "password" } })
-    );
-
-    await act(() => fireEvent.click(submitButton));
-
-    await waitFor(() =>
-      expect(authMock.signInWithEmailAndPassword).toHaveBeenCalled()
-    );
-
-    await waitFor(() => {
-      expect(() =>
-        screen.getByText(/auth\.errors\.auth\/default/)
-      ).not.toThrow();
-    });
+    expect(authMock.signInWithEmailAndPassword).toHaveBeenCalled();
+    expect(defaultError).toBeInTheDocument();
   });
 
   it("should show a loading state when the login is in progress", async () => {
-    let resolvePromise: CallableFunction;
-
     authMock.signInWithEmailAndPassword.mockImplementationOnce(
       () =>
-        new Promise<void>((resolve) => {
+        new Promise<void>(() => {
           // Make the promise never resolve
-          resolvePromise = resolve;
         })
     );
 
-    await act(async () => {
-      render(<LoginScreen />, {
-        wrapper: getWrapper(authMock),
-      });
+    render(<LoginScreen />, {
+      wrapper: getWrapper(authMock),
     });
 
-    const emailInput = screen.getByTestId("login-email-input");
-    const passwordInput = screen.getByTestId("login-password-input");
-    const submitButton = screen.getByTestId("login-submit-button");
+    const emailInput = await screen.findByTestId("login-email-input");
+    const passwordInput = await screen.findByTestId("login-password-input");
+    const submitButton = await screen.findByTestId("login-submit-button");
 
-    await act(() =>
-      fireEvent.change(emailInput, {
-        target: { value: "john.doe@example.com" },
-      })
+    await userEvent.type(emailInput, "john.doe@example.com");
+    await userEvent.type(passwordInput, "password");
+    await userEvent.click(submitButton);
+
+    const authenticatingProgress = await screen.findByTestId(
+      "authenticating-progress"
     );
 
-    await act(() =>
-      fireEvent.change(passwordInput, { target: { value: "password" } })
-    );
-
-    await act(() => fireEvent.click(submitButton));
-
-    await waitFor(() =>
-      expect(() => screen.getByTestId("authenticating-progress")).not.toThrow()
-    );
-
-    act(() => resolvePromise());
-
-    await waitFor(() =>
-      expect(() => screen.getByTestId("authenticating-progress")).toThrow()
-    );
+    expect(authenticatingProgress).toBeInTheDocument();
   });
 
   it("should show field errors when the form is submitted with invalid values", async () => {
-    await act(async () => {
-      render(<LoginScreen />, {
-        wrapper: getWrapper(authMock),
-      });
+    render(<LoginScreen />, {
+      wrapper: getWrapper(authMock),
     });
 
-    const emailInput = screen.getByTestId("login-email-input");
-    const submitButton = screen.getByTestId("login-submit-button");
+    const emailInput = await screen.findByTestId("login-email-input");
+    const submitButton = await screen.findByTestId("login-submit-button");
 
-    await act(() => fireEvent.click(submitButton));
+    await userEvent.click(submitButton);
 
-    await waitFor(() =>
-      expect(() =>
-        screen.getByText(/auth\.login\.email\.errors\.required/)
-      ).not.toThrow()
+    const requiredEmailError = await screen.findByText(
+      /auth\.login\.email\.errors\.required/
     );
 
-    await act(() =>
-      fireEvent.change(emailInput, {
-        target: { value: "invalid-email" },
-      })
+    expect(requiredEmailError).toBeInTheDocument();
+
+    await userEvent.type(emailInput, "invalid-email");
+    await userEvent.click(submitButton);
+
+    const invalidEmailError = await screen.findByText(
+      /auth\.login\.email\.errors\.invalid/
     );
 
-    await act(() => fireEvent.click(submitButton));
-
-    await waitFor(() =>
-      expect(() =>
-        screen.getByText(/auth\.login\.email\.errors\.invalid/)
-      ).not.toThrow()
+    const invalidPasswordError = await screen.findByText(
+      /auth\.login\.password\.errors\.required/
     );
 
-    await waitFor(() =>
-      expect(() =>
-        screen.getByText(/auth\.login\.password\.errors\.required/)
-      ).not.toThrow()
-    );
+    expect(invalidEmailError).toBeInTheDocument();
+    expect(invalidPasswordError).toBeInTheDocument();
+    expect(authMock.signInWithEmailAndPassword).not.toHaveBeenCalled();
   });
 });

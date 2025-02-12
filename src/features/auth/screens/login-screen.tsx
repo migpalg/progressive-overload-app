@@ -18,9 +18,9 @@ import { AlternateEmail, Lock } from "@mui/icons-material";
 import { FirebaseError } from "firebase/app";
 import { useAuth } from "../hooks/useAuth";
 import { EMAIL_REGEX } from "../constants.ts";
+import { GoogleIcon } from "../icons/google-icon.tsx";
 
 import DumbbellIllustration from "../assets/dumbbell-illustration.svg";
-import { GoogleIcon } from "../icons/google-icon.tsx";
 
 /**
  * Values from the login form
