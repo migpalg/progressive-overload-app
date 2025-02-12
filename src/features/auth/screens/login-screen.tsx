@@ -20,7 +20,7 @@ import { useAuth } from "../hooks/useAuth";
 import { EMAIL_REGEX } from "../constants.ts";
 import { GoogleIcon } from "../icons/google-icon.tsx";
 
-import DumbbellIllustration from "../assets/dumbbell-illustration.svg";
+import GymGirlIllustration from "../assets/gym-girl.svg";
 
 /**
  * Values from the login form
@@ -38,7 +38,7 @@ type LoginInputs = {
 };
 
 const ImageContainer = styled.img`
-  width: 60%;
+  width: 80%;
   height: auto;
   margin: 0 auto;
   display: block;
@@ -83,7 +83,7 @@ export const LoginScreen = () => {
 
   return (
     <Container maxWidth="xs" sx={{ paddingBlock: 2 }}>
-      <ImageContainer src={DumbbellIllustration} alt="Dumbbell Illustration" />
+      <ImageContainer src={GymGirlIllustration} alt="Dumbbell Illustration" />
       <Typography variant="h4" fontWeight={900} sx={{ mb: 4 }}>
         {t("auth.login.title")}
       </Typography>

@@ -33,15 +33,16 @@ export type AuthContextState = {
     email: string,
     password: string
   ) => Promise<UserCredential>;
+
+  signOut: () => Promise<void>;
 };
 
 const defaultAuthContext: AuthContextState = {
   auth: null,
   user: null,
   status: "loading",
-  signInWithEmailAndPassword: async () => {
-    throw new Error("Not implemented");
-  },
+  signInWithEmailAndPassword: () => Promise.reject("Not implemented"),
+  signOut: () => Promise.reject("Not implemented"),
 };
 
 /**
