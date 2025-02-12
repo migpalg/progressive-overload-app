@@ -30,6 +30,9 @@ type LoginInputs = {
   password: string;
 };
 
+/**
+ * This Screen allows the user to login into the application.
+ */
 export const LoginScreen = () => {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const { signInWithEmailAndPassword } = useAuth();
@@ -52,7 +55,6 @@ export const LoginScreen = () => {
       setErrorCode(null);
 
       // This operation fails if the login is incorrect
-      // TODO: Put this method in the auth context
       await signInWithEmailAndPassword(email, password);
 
       navigate(searchParams.get("redirect") || "/dashboard");
@@ -129,7 +131,7 @@ export const LoginScreen = () => {
           fullWidth
         >
           {isAuthenticating ? (
-            <CircularProgress size={25} />
+            <CircularProgress data-testid="authenticating-progress" size={25} />
           ) : (
             t("auth.login.submit")
           )}
