@@ -9,7 +9,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import styled from "@emotion/styled";
+import { styled } from "@mui/material/styles";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
@@ -37,10 +37,10 @@ type LoginInputs = {
   password: string;
 };
 
-const ImageContainer = styled.img`
-  width: 80%;
-  height: auto;
-  margin: 0 auto;
+const ImageContainer = styled("img")`
+  height: ${({ theme }) => theme.spacing(35)};
+  width: 100%;
+  object-fit: contain;
   display: block;
 `;
 
@@ -82,7 +82,7 @@ export const LoginScreen = () => {
   };
 
   return (
-    <Container maxWidth="xs" sx={{ paddingBlock: 2 }}>
+    <Container maxWidth="xs" sx={{ pt: 4, pb: 8 }}>
       <ImageContainer src={GymGirlIllustration} alt="Dumbbell Illustration" />
       <Typography variant="h4" fontWeight={900} sx={{ mb: 4 }}>
         {t("auth.login.title")}
