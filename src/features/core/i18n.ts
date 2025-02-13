@@ -9,11 +9,15 @@ const backendOptions: HttpBackendOptions = {
 
 i18n
   // Initialize i18next plugins and confiugurations
-  .use(initReactI18next)
   .use(LanguageDetector)
   .use(HttpApi)
+  .use(initReactI18next)
   .init({
     supportedLngs: ["en", "es"],
     fallbackLng: "en",
+    cleanCode: true,
+    debug: true,
+    load: "languageOnly",
+    lowerCaseLng: true,
     backend: backendOptions,
   });
