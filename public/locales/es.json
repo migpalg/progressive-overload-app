@@ -1,0 +1,42 @@
+{
+  "auth": {
+    "errors": {
+      "auth/default": "Ocurrió un error",
+      "auth/email-already-in-use": "Ya existe una cuenta con esta dirección de correo electrónico",
+      "auth/wrong-password": "Correo electrónico o contraseña incorrectos",
+      "auth/user-not-found": "No se encontró una cuenta con este correo electrónico",
+      "auth/invalid-email": "Por favor, introduce una dirección de correo electrónico válida",
+      "auth/weak-password": "La contraseña debe tener al menos 6 caracteres",
+      "auth/network-request-failed": "Error de conexión - por favor, verifica tu internet",
+      "auth/too-many-requests": "Demasiados intentos - por favor, inténtalo más tarde",
+      "auth/user-disabled": "Esta cuenta ha sido deshabilitada",
+      "auth/requires-recent-login": "Por favor, inicia sesión nuevamente para continuar",
+      "auth/popup-closed-by-user": "El inicio de sesión fue cancelado",
+      "auth/operation-not-allowed": "Este método de inicio de sesión no está habilitado",
+      "auth/expired-action-code": "Este enlace ha expirado",
+      "auth/invalid-action-code": "Este enlace no es válido",
+      "auth/popup-blocked": "Por favor, permite las ventanas emergentes para este sitio web",
+      "auth/invalid-credential": "Credenciales de inicio de sesión no válidas"
+    },
+    "login": {
+      "title": "Iniciar sesión",
+      "email": {
+        "label": "Correo electrónico",
+        "placeholder": "john.doe@example.com",
+        "errors": {
+          "required": "El correo electrónico es obligatorio",
+          "invalid": "El correo electrónico no es válido"
+        }
+      },
+      "password": {
+        "label": "Contraseña",
+        "placeholder": "Introduce tu contraseña",
+        "errors": {
+          "required": "La contraseña es obligatoria"
+        }
+      },
+      "submit": "Iniciar sesión",
+      "google": "Iniciar sesión con Google"
+    }
+  }
+}
