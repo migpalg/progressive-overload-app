@@ -3,7 +3,7 @@ import { createTheme } from "@mui/material";
 export const theme = createTheme({
   typography: {
     fontFamily: [
-      "Lato",
+      "Nunito",
       "-apple-system",
       "BlinkMacSystemFont",
       '"Segoe UI"',
