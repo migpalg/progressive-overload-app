@@ -16,7 +16,7 @@ import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import { AlternateEmail, Lock } from "@mui/icons-material";
 import { FirebaseError } from "firebase/app";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../hooks/use-auth.ts";
 import { EMAIL_REGEX } from "../constants.ts";
 import { GoogleIcon } from "../icons/google-icon.tsx";
 

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../hooks/use-auth";
 import { renderHook } from "@testing-library/react";
 
 describe("useAuth() hook unit testing", () => {

@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useAuth } from "../../auth/hooks/useAuth";
+import { useAuth } from "../../auth/hooks/use-auth";
 import { Box, Button, Typography } from "@mui/material";
 
 export const HomeScreen = () => {
