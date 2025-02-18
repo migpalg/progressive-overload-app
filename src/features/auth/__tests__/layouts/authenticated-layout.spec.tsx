@@ -55,4 +55,31 @@ describe("<AuthenticatedLayout /> unit testing", () => {
 
     expect(loginText).toBeInTheDocument();
   });
+
+  it("should render the application when the user is authenticated", async () => {
+    // Set state before rendering
+    authMock.user = { email: "dev@example.com" };
+    authMock.status = "success";
+
+    const Stub = createRoutesStub([
+      {
+        path: "/",
+        Component: AuthenticatedLayout,
+        children: [
+          {
+            path: "hello",
+            Component: () => <div>hello</div>,
+          },
+        ],
+      },
+    ]);
+
+    const { findByText } = render(<Stub initialEntries={["/hello"]} />, {
+      wrapper: getWrapper(authMock),
+    });
+
+    const helloText = await findByText("hello");
+
+    expect(helloText).toBeInTheDocument();
+  });
 });

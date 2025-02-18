@@ -9,5 +9,7 @@ describe("useAuth() hook unit testing", () => {
     await expect(
       result.current.signInWithEmailAndPassword("test", "test")
     ).rejects.toThrow();
+
+    await expect(result.current.signOut()).rejects.toThrow();
   });
 });
