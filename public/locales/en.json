@@ -38,5 +38,8 @@
       "submit": "Login",
       "google": "Sign in with Google"
     }
+  },
+  "home": {
+    "greeting": "Welcome back!"
   }
 }

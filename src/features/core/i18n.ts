@@ -16,7 +16,6 @@ i18n
     supportedLngs: ["en", "es"],
     fallbackLng: "en",
     cleanCode: true,
-    debug: true,
     load: "languageOnly",
     lowerCaseLng: true,
     backend: backendOptions,

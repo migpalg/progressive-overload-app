@@ -1,32 +1,40 @@
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../auth/hooks/use-auth";
-import { Box, Button, Typography } from "@mui/material";
+import { Avatar, Box, Button, Typography } from "@mui/material";
 
 export const HomeScreen = () => {
-  const { signOut } = useAuth();
+  const { signOut, user } = useAuth();
   const { t } = useTranslation();
+  const shortName =
+    user?.displayName &&
+    `${user?.displayName.split(" ")[0][0]}${user?.displayName.split(" ")[1][0]}`;
 
   const handleSignOut = () => {
     signOut();
   };
 
   return (
-    <Box>
-      <Typography variant="h2" fontWeight={900}>
-        {t("home.title")}
-      </Typography>
-      <Typography variant="subtitle1">Welcome to the home screen!</Typography>
-
-      <Typography variant="body1" gutterBottom>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat.
-      </Typography>
+    <Box sx={{ padding: 2 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Avatar>{shortName}</Avatar>
+        <Box sx={{ textAlign: "right" }}>
+          <Typography variant="h5" fontWeight={900}>
+            {t("home.greeting")}
+          </Typography>
+          <Typography variant="subtitle1">
+            {user?.displayName ?? user?.email}
+          </Typography>
+        </Box>
+      </Box>
       <Button variant="contained" onClick={handleSignOut} color="error">
         Sign out
       </Button>
     </Box>
   );
 };
-
