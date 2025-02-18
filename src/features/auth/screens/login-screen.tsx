@@ -74,7 +74,7 @@ export const LoginScreen = () => {
       navigate(searchParams.get("redirect") || "/dashboard");
     } catch (error) {
       setErrorCode(
-        error instanceof FirebaseError ? error.code : "auth/default"
+        error instanceof FirebaseError ? error.code : "auth/default",
       );
     } finally {
       setIsAuthenticating(false);

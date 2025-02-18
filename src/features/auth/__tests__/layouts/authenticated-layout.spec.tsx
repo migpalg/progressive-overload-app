@@ -1,4 +1,6 @@
-import { describe } from "vitest";
+import { describe, it } from "vitest";
 
 // TODO: Implement unit tests for <AuthenticatedLayout /> component
-describe.todo("<AuthenticatedLayout /> unit testing");
+describe("<AuthenticatedLayout /> unit testing", () => {
+  it.todo("should redirect to login when user is not authenticated");
+});

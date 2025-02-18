@@ -48,7 +48,7 @@ export const AuthProvider = ({ auth, children }: AuthProviderProps) => {
     (email: string, password: string) => {
       return signInWithEmailAndPassword(auth, email, password);
     },
-    [auth]
+    [auth],
   );
 
   const logOut = useCallback(() => signOut(auth), [auth]);
@@ -63,7 +63,7 @@ export const AuthProvider = ({ auth, children }: AuthProviderProps) => {
       signInWithEmailAndPassword: signInWithEmail,
       signOut: logOut,
     }),
-    [auth, fetchStatus, logOut, signInWithEmail, user]
+    [auth, fetchStatus, logOut, signInWithEmail, user],
   );
 
   useEffect(() => {

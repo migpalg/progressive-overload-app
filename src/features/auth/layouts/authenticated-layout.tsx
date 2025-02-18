@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from "react-router";
-import { useAuth } from "../hooks/useAuth";
 import { LinearProgress } from "@mui/material";
+import { useAuth } from "../hooks/useAuth";
 
 export const AuthenticatedLayout = () => {
   const { user, status } = useAuth();

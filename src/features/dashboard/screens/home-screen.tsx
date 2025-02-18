@@ -1,8 +1,10 @@
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../../auth/hooks/useAuth";
 import { Box, Button, Typography } from "@mui/material";
 
 export const HomeScreen = () => {
   const { signOut } = useAuth();
+  const { t } = useTranslation();
 
   const handleSignOut = () => {
     signOut();
@@ -11,7 +13,7 @@ export const HomeScreen = () => {
   return (
     <Box>
       <Typography variant="h2" fontWeight={900}>
-        Home
+        {t("home.title")}
       </Typography>
       <Typography variant="subtitle1">Welcome to the home screen!</Typography>
 
@@ -27,3 +29,4 @@ export const HomeScreen = () => {
     </Box>
   );
 };
+
