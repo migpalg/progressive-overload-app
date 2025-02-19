@@ -1,6 +1,14 @@
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../auth/hooks/use-auth";
-import { Avatar, Box, Button, Container, Paper, styled, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  Container,
+  Paper,
+  styled,
+  Typography,
+} from "@mui/material";
 
 import DumbbellIllustration from "../assets/dumbbell.svg";
 
@@ -23,7 +31,7 @@ export const HomeScreen = () => {
   };
 
   return (
-    <Container sx={{ overflow: "hidden", py: 2 }}> 
+    <Container sx={{ overflow: "hidden", py: 2 }}>
       <Box
         sx={{
           display: "flex",
