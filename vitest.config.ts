@@ -19,6 +19,7 @@ export default mergeConfig(
           "**/router.tsx",
           "**/theme.ts",
         ],
+        reporter: ["text", "json-summary", "json"],
       },
     },
   })
