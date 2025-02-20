@@ -16,6 +16,7 @@ export default mergeConfig(
           "**/main.tsx",
           "**/config.ts",
         ],
+        reporter: ["text", "json-summary", "json"],
       },
     },
   })
