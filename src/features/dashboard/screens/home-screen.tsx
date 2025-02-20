@@ -3,8 +3,8 @@ import { useAuth } from "../../auth/hooks/use-auth";
 import {
   Avatar,
   Box,
-  Button,
   Container,
+  Grid2 as Grid,
   Paper,
   styled,
   Typography,
@@ -31,7 +31,14 @@ export const HomeScreen = () => {
   };
 
   return (
-    <Container sx={{ overflow: "hidden", py: 2 }}>
+    <Container
+      sx={(theme) => ({
+        overflow: "hidden",
+        py: 2,
+        minHeight: "100vh",
+        backgroundColor: theme.palette.grey[50],
+      })}
+    >
       <Box
         sx={{
           display: "flex",
@@ -51,17 +58,15 @@ export const HomeScreen = () => {
       </Box>
 
       <Paper
-        elevation={2}
-        sx={(theme) => ({
+        sx={{
           p: 2,
           my: 2,
           borderRadius: 4,
-          backgroundColor: theme.palette.grey[100],
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
           gap: 4,
-        })}
+        }}
       >
         <Box>
           <Typography
@@ -86,9 +91,34 @@ export const HomeScreen = () => {
         </Box>
       </Paper>
 
-      <Button variant="contained" onClick={handleSignOut} color="error">
+      <Box>
+        <Box sx={{ my: 2 }}>
+          <Typography variant="h2" fontWeight={600}>
+            {t("home.recent-entries.title")}
+          </Typography>
+
+          <Typography variant="caption" sx={{ opacity: 0.5 }}>
+            {t("home.recent-entries.subtitle")}
+          </Typography>
+        </Box>
+
+        <Grid container spacing={2}>
+          {Array.from({ length: 6 }).map((_, index) => (
+            <Grid size={6} key={index}>
+              <Paper key={index} sx={{ borderRadius: 4, p: 2 }}>
+                <Typography variant="h6">Bench Press</Typography>
+                <Typography variant="body2" sx={{ opacity: 0.5 }}>
+                  3x10
+                </Typography>
+              </Paper>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+
+      {/*<Button variant="contained" onClick={handleSignOut} color="error">
         Sign out
-      </Button>
+      </Button>*/}
     </Container>
   );
 };

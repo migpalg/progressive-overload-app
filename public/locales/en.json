@@ -40,6 +40,11 @@
     }
   },
   "home": {
-    "greeting": "Welcome back!"
+    "greeting": "Welcome back!",
+    "recent-entries": {
+      "title": "Recent entries",
+      "subtitle": "Here are your most recent entries",
+      "empty": "No recent workouts"
+    }
   }
 }
