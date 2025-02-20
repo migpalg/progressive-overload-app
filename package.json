@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "test:ci": "vitest run --coverage",
     "test": "vitest",
     "coverage": "vitest --coverage"
   },
@@ -44,5 +45,6 @@
     "typescript-eslint": "^8.18.2",
     "vite": "^6.0.5",
     "vitest": "^3.0.4"
-  }
+  },
+  "packageManager": "pnpm@10.4.1"
 }
