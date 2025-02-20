@@ -11,6 +11,11 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         name: Install node
+      - name: Install package manager
+        run: |
+          corepack enable
+          corepack install
+        corepack enable
       - name: Install dependencies
         run: pnpm install
       - name: Run tests
