@@ -10,13 +10,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        name: Install node
         with:
           node-version: 22
-      - name: Install package manager
-        run: |
-          corepack enable
-          corepack install
+      - uses: pnpm/action-setup@v4
       - name: Install dependencies
         run: pnpm install
       - name: Run tests
