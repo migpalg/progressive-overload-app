@@ -3,6 +3,7 @@ import { useAuth } from "../../auth/hooks/use-auth";
 import {
   Avatar,
   Box,
+  Button,
   Container,
   Grid2 as Grid,
   Paper,
@@ -11,6 +12,8 @@ import {
 } from "@mui/material";
 
 import DumbbellIllustration from "../assets/dumbbell.svg";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { db } from "../../core/firebase";
 
 const HeaderImage = styled("img")`
   position: absolute;
@@ -20,15 +23,27 @@ const HeaderImage = styled("img")`
 `;
 
 export const HomeScreen = () => {
-  const { signOut, user } = useAuth();
+  const { user } = useAuth();
   const { t } = useTranslation();
   const shortName =
     user?.displayName &&
     `${user?.displayName.split(" ")[0][0]}${user?.displayName.split(" ")[1][0]}`;
 
-  const handleSignOut = () => {
-    signOut();
-  };
+  const handleButtonClick = async () => {
+    try {
+      const docRef = await addDoc(collection(db, "entries"), {
+        title: "Bench Press",
+        sets: 3,
+        reps: 10,
+        weight: 100,
+        createdAt: serverTimestamp(),
+      });
+
+      console.log("Document written with ID: ", docRef.id);
+    } catch (error) {
+      console.log('error creating document', error);
+    }
+  }
 
   return (
     <Container
@@ -116,9 +131,9 @@ export const HomeScreen = () => {
         </Grid>
       </Box>
 
-      {/*<Button variant="contained" onClick={handleSignOut} color="error">
-        Sign out
-      </Button>*/}
+      <Button onClick={handleButtonClick}>
+        Create a mock entry
+      </Button>
     </Container>
   );
 };

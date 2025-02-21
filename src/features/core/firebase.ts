@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { config } from "./config";
+import { config } from "../auth/config";
 import { connectAuthEmulator, getAuth } from "firebase/auth";
 import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
 
