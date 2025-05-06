@@ -1,23 +1,14 @@
-import { PropsWithChildren } from "react";
 import { beforeAll, beforeEach, describe, expect, it, Mock, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { AuthContext } from "../../contexts/auth-context";
-import { LoginScreen } from "../../screens/login-screen";
 import { FirebaseError } from "firebase/app";
+import { LoginScreen } from "../../screens/login-screen";
+import { getWrapper } from "../__utils__/get-wrapper";
 
 vi.mock("react-router", () => ({
   useNavigate: () => vi.fn(),
   useSearchParams: () => [new URLSearchParams()],
 }));
-
-function getWrapper(authMock: unknown) {
-  return ({ children }: PropsWithChildren) => (
-    <AuthContext.Provider value={authMock as never}>
-      {children}
-    </AuthContext.Provider>
-  );
-}
 
 describe("<LoginScreen /> unit testing", async () => {
   let authMock: {

@@ -15,9 +15,18 @@ export default mergeConfig(
           "**/firebase.ts",
           "**/main.tsx",
           "**/config.ts",
+          "**/i18n.ts",
+          "**/router.tsx",
+          "**/theme.ts",
         ],
         reporter: ["text", "json-summary", "json"],
+        thresholds: {
+          statements: 80,
+          branches: 80,
+          functions: 80,
+          lines: 80,
+        },
       },
     },
-  })
+  }),
 );

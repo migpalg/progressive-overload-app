@@ -1,13 +1,13 @@
 import { Navigate, Outlet } from "react-router";
-import { useAuth } from "../hooks/useAuth";
 import { LinearProgress } from "@mui/material";
+import { useAuth } from "../hooks/use-auth";
 
 export const AuthenticatedLayout = () => {
   const { user, status } = useAuth();
 
   if (status === "loading") {
     // TODO: Show a skeleton loader
-    return <LinearProgress />;
+    return <LinearProgress role="progressbar" />;
   }
 
   if (!user) {
